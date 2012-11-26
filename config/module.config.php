@@ -5,6 +5,7 @@ return array(
         'factories' => array(
             'headLinkCdn' => 'CdnLight\View\Helper\Service\HeadLinkCdnFactory',
             'headScriptCdn' => 'CdnLight\View\Helper\Service\HeadScriptCdnFactory',
+            'linkCdn' => 'CdnLight\View\Helper\Service\LinkCdnFactory',
         ),
     ),
     'cdn_light' => array(

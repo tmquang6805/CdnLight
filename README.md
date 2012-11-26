@@ -35,8 +35,11 @@ return array(
 ```
 
 Yours CSS and JS files will use your CDN by turnover.
-Juste replace view helpers "headLink" by "headLinkCdn" :
 
+Usage
+------------
+
+Juste replace view helpers "headLink" by "headLinkCdn" :
 
 ```php
 $this->headLinkCdn()->appendStylesheet('/css/bootstrap.min.css')
@@ -44,10 +47,16 @@ $this->headLinkCdn()->appendStylesheet('/css/bootstrap.min.css')
                  ->appendStylesheet('/css/bootstrap-responsive.min.css');
 ```
 
-Result will be 
+Result will be :
 
 ```php
 <link href="http://server1.com:80/css/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="http://server2.com:80/css/css/style.css" media="screen" rel="stylesheet" type="text/css" />
 <link href="http://server3.com:80/css/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css" />
+```
+
+You can use the view helper link for a standalone usage :
+
+```php
+<img src="<?php $this->linkCdn('/img/logo.png'); ?>" alt="" />
 ```
