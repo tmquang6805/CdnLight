@@ -5,6 +5,7 @@ namespace CdnLightTest\View\Helper;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\View\Helper\Placeholder;
 use Zend\ServiceManager;
+use Zend\View\HelperPluginManager;
 
 class LinkTest extends TestCase
 {
@@ -12,11 +13,11 @@ class LinkTest extends TestCase
 
     public function setUp()
     {
-        require_once __DIR__ . '/../../../../Module.php';
-        $module = new \CdnLight\Module();
-        $config = include __DIR__ . '/../../../../config/module.config.php';
-        $this->sm = new ServiceManager\ServiceManager(new ServiceManager\Config($config['view_helpers']));
-        $this->sm->setService('Config', $config);
+        $config = include __DIR__ . '/../../../module.config.test.php';
+        $this->sm = new HelperPluginManager(new ServiceManager\Config($config['view_helpers']));
+        $smApp =  new ServiceManager\ServiceManager();
+        $smApp->setService('Config', $config);
+        $this->sm->setServiceLocator($smApp);
     }
 
     public function testCanGetFactory()
@@ -45,5 +46,13 @@ class LinkTest extends TestCase
 
         $image = 'http://www.myserver.com/img/logo.png';
         $this->assertEquals($helper('http://www.myserver.com/img/logo.png'), $image);
+    }
+
+    public function testCanNotRetrieveCdnLinkDisabled()
+    {
+        $helper = $this->sm->get('linkCdn');
+        $helper->setEnabled(false);
+        $image = '/img/logo.png';
+        $this->assertEquals($helper->cdn('/img/logo.png'), $image);
     }
 }

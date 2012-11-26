@@ -5,6 +5,7 @@ namespace CdnLightTest\View\Helper;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\View\Helper\Placeholder;
 use Zend\ServiceManager;
+use Zend\View\HelperPluginManager;
 
 class HeadLinkTest extends TestCase
 {
@@ -12,11 +13,11 @@ class HeadLinkTest extends TestCase
 
     public function setUp()
     {
-        require_once __DIR__ . '/../../../../Module.php';
-        $module = new \CdnLight\Module();
-        $config = include __DIR__ . '/../../../../config/module.config.php';
-        $this->sm = new ServiceManager\ServiceManager(new ServiceManager\Config($config['view_helpers']));
-        $this->sm->setService('Config', $config);
+        $config = include __DIR__ . '/../../../module.config.test.php';
+        $this->sm = new HelperPluginManager(new ServiceManager\Config($config['view_helpers']));
+        $smApp =  new ServiceManager\ServiceManager();
+        $smApp->setService('Config', $config);
+        $this->sm->setServiceLocator($smApp);
     }
 
     public function tearDown()
@@ -66,6 +67,15 @@ class HeadLinkTest extends TestCase
 
         $helper->appendStylesheet('http://www.mydomaine.fr/css/foo.css');
         $style1 = '<link href="http://www.mydomaine.fr/css/foo.css" media="screen" rel="stylesheet" type="text/css" />';
+        $this->assertEquals($helper->toString(), $style1);
+    }
+
+    public function testCanNotRetrieveCdnLinkDisabled()
+    {
+        $helper = $this->sm->get('headLinkCdn');
+        $helper->setEnabled(false);
+        $helper->appendStylesheet('/css/foo.css');
+        $style1 = '<link href="/css/foo.css" media="screen" rel="stylesheet" type="text/css" />';
         $this->assertEquals($helper->toString(), $style1);
     }
 }

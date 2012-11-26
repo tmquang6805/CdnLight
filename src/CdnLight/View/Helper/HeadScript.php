@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of the CdnLight package.
+ * @copyright Copyright (c) 2012 Blanchon Vincent - France (http://developpeur-zend-framework.fr - blanchon.vincent@gmail.com)
+ */
+
 namespace CdnLight\View\Helper;
 
 use stdClass;
@@ -9,6 +14,12 @@ use Zend\View\Helper\HeadScript as BaseHeadScript;
 
 class HeadScript extends BaseHeadScript
 {
+    /**
+     * Enable state
+     * @var boolean
+     */
+    protected $enabled;
+
     /**
      * Cdn config, array of server config
      * @var array
@@ -26,9 +37,10 @@ class HeadScript extends BaseHeadScript
      *
      * @param array $cdnConfig
      */
-    public function __construct(array $cdnConfig)
+    public function __construct(array $cdnConfig, $enabled)
     {
         $this->setCdnConfig($cdnConfig);
+        $this->setEnabled($enabled);
         parent::__construct();
     }
 
@@ -41,17 +53,36 @@ class HeadScript extends BaseHeadScript
     public function setCdnConfig(array $cdnConfig)
     {
         if(empty($cdnConfig)) {
-            throw InvalidArgumentException('Cdn config must be not empty');
+            throw new InvalidArgumentException('Cdn config must be not empty');
         }
         $configs = array();
         foreach($cdnConfig as $cdn) {
             if(!is_array($cdn)) {
-                throw InvalidArgumentException('Cdn config must be an array of cdn arrays');
+                throw new InvalidArgumentException('Cdn config must be an array of cdn arrays');
             }
             $configs[] = $cdn;
         }
         $this->cdnConfig = $configs;
         static::$serverId = 0;
+        return $this;
+    }
+
+    /**
+     * Get enable state
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set enable state
+     * @param boolean $enabled
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
         return $this;
     }
 
@@ -111,6 +142,9 @@ class HeadScript extends BaseHeadScript
      */
     protected function cdn(\StdClass $value)
     {
+        if(!$this->getEnabled()) {
+            return $this;
+        }
         if(!isset($this->cdnConfig[static::$serverId])) {
             static::$serverId = 0;
         }

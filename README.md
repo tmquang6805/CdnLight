@@ -1,7 +1,7 @@
 ZF2 CdnLight module
 ========
 
-Version 0.1 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
+Version 0.2 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
 
 Introduction
 ------------
@@ -12,6 +12,7 @@ Just configure your module :
 ```php
 return array(
     'cdn_light' => array(
+        'enabled' => true,
         'servers' => array(
             'static_1' => array(
                 'scheme' => 'http',
@@ -50,13 +51,36 @@ $this->headLinkCdn()->appendStylesheet('/css/bootstrap.min.css')
 Result will be :
 
 ```php
-<link href="http://server1.com:80/css/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="http://server2.com:80/css/css/style.css" media="screen" rel="stylesheet" type="text/css" />
-<link href="http://server3.com:80/css/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://server1.com:80/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://server2.com:80/css/style.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://server3.com:80/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css" />
 ```
 
 You can use the view helper link for a standalone usage :
 
 ```php
 <img src="<?php $this->linkCdn('/img/logo.png'); ?>" alt="" />
+```
+
+To force use always the CDN, create alias in your config :
+
+```php
+// make sure cdn is always used
+'view_helpers' => array(
+    'aliases' => array(
+        'headLink' => 'headLinkCdn',
+        'headScript' => 'headScriptCdn',
+    ),
+),
+```
+
+When alias is created, you can disable plugin with config and "enabled" entry :
+
+```php
+return array(
+    'cdn_light' => array(
+        'enabled' => false,
+    ),
+);
+
 ```

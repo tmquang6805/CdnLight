@@ -5,6 +5,7 @@ namespace CdnLightTest\View\Helper;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend\View\Helper\Placeholder;
 use Zend\ServiceManager;
+use Zend\View\HelperPluginManager;
 
 class HeadScriptTest extends TestCase
 {
@@ -12,11 +13,11 @@ class HeadScriptTest extends TestCase
 
     public function setUp()
     {
-        require_once __DIR__ . '/../../../../Module.php';
-        $module = new \CdnLight\Module();
-        $config = include __DIR__ . '/../../../../config/module.config.php';
-        $this->sm = new ServiceManager\ServiceManager(new ServiceManager\Config($config['view_helpers']));
-        $this->sm->setService('Config', $config);
+        $config = include __DIR__ . '/../../../module.config.test.php';
+        $this->sm = new HelperPluginManager(new ServiceManager\Config($config['view_helpers']));
+        $smApp =  new ServiceManager\ServiceManager();
+        $smApp->setService('Config', $config);
+        $this->sm->setServiceLocator($smApp);
     }
 
     public function tearDown()
@@ -66,6 +67,15 @@ class HeadScriptTest extends TestCase
 
         $helper->appendFile('http://www.mydomaine.fr/js/foo.js', 'text/javascript');
         $js1 = '<script type="text/javascript" src="http://www.mydomaine.fr/js/foo.js"></script>';
+        $this->assertEquals($helper->toString(), $js1);
+    }
+
+    public function testCanNotRetrieveCdnLinkDisabled()
+    {
+        $helper = $this->sm->get('headScriptCdn');
+        $helper->setEnabled(false);
+        $helper->appendFile('/js/foo.js', 'text/javascript');
+        $js1 = '<script type="text/javascript" src="/js/foo.js"></script>';
         $this->assertEquals($helper->toString(), $js1);
     }
 }
