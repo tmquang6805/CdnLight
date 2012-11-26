@@ -23,8 +23,8 @@ class HeadScript extends BaseHeadScript
 
     /**
      * Construct the cdn helper
-     * 
-     * @param array $cdnConfig 
+     *
+     * @param array $cdnConfig
      */
     public function __construct(array $cdnConfig)
     {
@@ -34,9 +34,9 @@ class HeadScript extends BaseHeadScript
 
     /**
      * Set the Cdn servers config
-     * 
+     *
      * @param array $cdnConfig
-     * @return HeadScript 
+     * @return HeadScript
      */
     public function setCdnConfig(array $cdnConfig)
     {
@@ -54,7 +54,7 @@ class HeadScript extends BaseHeadScript
         static::$serverId = 0;
         return $this;
     }
-    
+
     /**
      * Override append
      *
@@ -107,7 +107,7 @@ class HeadScript extends BaseHeadScript
     /**
      * Construct the cdn url
      * @param \StdClass $value
-     * @return HeadScript 
+     * @return HeadScript
      */
     protected function cdn(\StdClass $value)
     {

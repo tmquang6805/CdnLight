@@ -38,9 +38,16 @@ Yours CSS and JS files will use your CDN by turnover.
 Juste replace view helpers "headLink" by "headLinkCdn" :
 
 
-```html
+```php
 $this->headLinkCdn()->appendStylesheet('/css/bootstrap.min.css')
                  ->appendStylesheet('/css/style.css')
                  ->appendStylesheet('/css/bootstrap-responsive.min.css');
+```
 
+Result will be 
+
+```php
+<link href="http://server1.com:80/css/css/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://server2.com:80/css/css/style.css" media="screen" rel="stylesheet" type="text/css" />
+<link href="http://server3.com:80/css/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css" />
 ```
