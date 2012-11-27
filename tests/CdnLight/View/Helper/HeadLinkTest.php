@@ -27,8 +27,10 @@ class HeadLinkTest extends TestCase
 
     public function testCanGetFactory()
     {
-        $helper = $this->sm->get('headLinkCdn');
-        $this->assertEquals(get_class($helper), 'CdnLight\View\Helper\HeadLink');
+        $helperCdn = $this->sm->get('headLinkCdn');
+        $this->assertEquals(get_class($helperCdn), 'CdnLight\View\Helper\HeadLink');
+        $helper = $this->sm->get('headLink');
+        $this->assertSame($helperCdn, $helper);
     }
 
     public function testCanRetrieveCdnLink()
@@ -67,15 +69,6 @@ class HeadLinkTest extends TestCase
 
         $helper->appendStylesheet('http://www.mydomaine.fr/css/foo.css');
         $style1 = '<link href="http://www.mydomaine.fr/css/foo.css" media="screen" rel="stylesheet" type="text/css" />';
-        $this->assertEquals($helper->toString(), $style1);
-    }
-
-    public function testCanNotRetrieveCdnLinkDisabled()
-    {
-        $helper = $this->sm->get('headLinkCdn');
-        $helper->setEnabled(false);
-        $helper->appendStylesheet('/css/foo.css');
-        $style1 = '<link href="/css/foo.css" media="screen" rel="stylesheet" type="text/css" />';
         $this->assertEquals($helper->toString(), $style1);
     }
 }

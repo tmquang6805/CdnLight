@@ -17,7 +17,7 @@ class HeadLinkCdnFactory implements FactoryInterface
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
         $config = $serviceLocator->get('Config');
-        $helper = new HeadLink($config['cdn_light']['servers'], $config['cdn_light']['enabled']);
+        $helper = new HeadLink($config['cdn_light']['servers']);
         return $helper;
     }
 }

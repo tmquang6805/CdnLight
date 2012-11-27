@@ -7,9 +7,15 @@ return array(
             'headScriptCdn' => 'CdnLight\View\Helper\Service\HeadScriptCdnFactory',
             'linkCdn' => 'CdnLight\View\Helper\Service\LinkCdnFactory',
         ),
+        'aliases' => array(
+            'headLink' => 'headLinkCdn',
+            'headScript' => 'headScriptCdn',
+        ),
     ),
     'cdn_light' => array(
-        'enabled' => true,
+        'link_helper' => array(
+            'enabled' => true,
+        ),
         'servers' => array(
             // define your servers config in your global/local config
         ),

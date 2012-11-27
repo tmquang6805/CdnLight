@@ -7,9 +7,15 @@ return array(
             'headScriptCdn' => 'CdnLight\View\Helper\Service\HeadScriptCdnFactory',
             'linkCdn' => 'CdnLight\View\Helper\Service\LinkCdnFactory',
         ),
+        'aliases' => array(
+            'headLink' => 'headLinkCdn',
+            'headScript' => 'headScriptCdn',
+        ),
     ),
     'cdn_light' => array(
-        'enabled' => true,
+        'link_helper' => array(
+            'enabled' => true,
+        ),
         'servers' => array(
             'static_1' => array(
                 'scheme' => 'http',

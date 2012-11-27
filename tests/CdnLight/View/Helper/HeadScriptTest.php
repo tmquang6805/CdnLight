@@ -69,13 +69,4 @@ class HeadScriptTest extends TestCase
         $js1 = '<script type="text/javascript" src="http://www.mydomaine.fr/js/foo.js"></script>';
         $this->assertEquals($helper->toString(), $js1);
     }
-
-    public function testCanNotRetrieveCdnLinkDisabled()
-    {
-        $helper = $this->sm->get('headScriptCdn');
-        $helper->setEnabled(false);
-        $helper->appendFile('/js/foo.js', 'text/javascript');
-        $js1 = '<script type="text/javascript" src="/js/foo.js"></script>';
-        $this->assertEquals($helper->toString(), $js1);
-    }
 }

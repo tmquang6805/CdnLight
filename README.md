@@ -1,7 +1,7 @@
 ZF2 CdnLight module
 ========
 
-Version 0.2 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
+Version 1.0 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
 
 Introduction
 ------------
@@ -40,10 +40,10 @@ Yours CSS and JS files will use your CDN by turnover.
 Usage
 ------------
 
-Juste replace view helpers "headLink" by "headLinkCdn" :
+Change nothing !
 
 ```php
-$this->headLinkCdn()->appendStylesheet('/css/bootstrap.min.css')
+$this->headLink()->appendStylesheet('/css/bootstrap.min.css')
                  ->appendStylesheet('/css/style.css')
                  ->appendStylesheet('/css/bootstrap-responsive.min.css');
 ```
@@ -56,31 +56,8 @@ Result will be :
 <link href="http://server3.com:80/css/bootstrap-responsive.min.css" media="screen" rel="stylesheet" type="text/css" />
 ```
 
-You can use the view helper link for a standalone usage :
+You can use a link view helper for a standalone usage :
 
 ```php
 <img src="<?php $this->linkCdn('/img/logo.png'); ?>" alt="" />
-```
-
-To force use always the CDN, create alias in your config :
-
-```php
-// make sure cdn is always used
-'view_helpers' => array(
-    'aliases' => array(
-        'headLink' => 'headLinkCdn',
-        'headScript' => 'headScriptCdn',
-    ),
-),
-```
-
-When alias is created, you can disable plugin with config and "enabled" entry :
-
-```php
-return array(
-    'cdn_light' => array(
-        'enabled' => false,
-    ),
-);
-
 ```

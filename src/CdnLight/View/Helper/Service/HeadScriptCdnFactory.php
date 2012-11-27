@@ -17,7 +17,7 @@ class HeadScriptCdnFactory implements FactoryInterface
     {
         $serviceLocator = $serviceLocator->getServiceLocator();
         $config = $serviceLocator->get('Config');
-        $helper = new HeadScript($config['cdn_light']['servers'], $config['cdn_light']['enabled']);
+        $helper = new HeadScript($config['cdn_light']['servers']);
         return $helper;
     }
 }
