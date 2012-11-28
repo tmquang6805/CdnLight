@@ -7,7 +7,7 @@ Introduction
 ------------
 
 ZF2 CdnLight module provide view helpers to manage custom CDN for ZF2 application.
-Just configure your module :
+Just configure your module in cdnlight.local.php which will be moved in "/config/autoload" :
 
 ```php
 return array(
