@@ -12,12 +12,4 @@ return array(
             'headScript' => 'headScriptCdn',
         ),
     ),
-    'cdn_light' => array(
-        'link_helper' => array(
-            'enabled' => true,
-        ),
-        'servers' => array(
-            // define your servers config in your global/local config
-        ),
-    ),
 );

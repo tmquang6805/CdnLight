@@ -13,7 +13,8 @@ class HeadLinkTest extends TestCase
 
     public function setUp()
     {
-        $config = include __DIR__ . '/../../../module.config.test.php';
+        $config = include __DIR__ . '/../../../../config/module.config.php';
+        $config = array_merge($config, include __DIR__ . '/../../../../config/cdnlight.local.php');
         $this->sm = new HelperPluginManager(new ServiceManager\Config($config['view_helpers']));
         $smApp =  new ServiceManager\ServiceManager();
         $smApp->setService('Config', $config);
