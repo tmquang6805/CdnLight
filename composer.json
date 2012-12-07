@@ -1,0 +1,28 @@
+{
+    "name": "blanchonvincent/cdn-light",
+    "description": "ZF2 module v1.0 - Manage your own CDN with ZF2 application",
+    "type": "module",
+    "license": "MIT",
+    "tags": [
+        "zend framework",
+        "cdn",
+        "module"
+    ],
+    "homepage": "https://github.com/blanchonvincent/CdnLight",
+    "authors": [
+        {
+            "name": "Vincent Blanchon",
+            "email": "blanchon.vincent@gmail.com",
+            "homepage": "http://developpeur-zend-framework.fr",
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.*",
+    },
+    "autoload": {
+    	"psr-0": {
+            "ParallelJobs": "src/"
+    	}
+    }
+}
