@@ -13,12 +13,12 @@
         {
             "name": "Vincent Blanchon",
             "email": "blanchon.vincent@gmail.com",
-            "homepage": "http://developpeur-zend-framework.fr",
+            "homepage": "http://developpeur-zend-framework.fr"
         }
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.*",
+        "zendframework/zendframework": "2.*"
     },
     "autoload": {
     	"psr-0": {
