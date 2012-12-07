@@ -1,5 +1,5 @@
 {
-    "name": "blanchonvincent/CdnLight",
+    "name": "blanchonvincent/cdn-light",
     "description": "ZF2 module v1.0 - Manage your own CDN with ZF2 application",
     "version": "1p.0.0",
     "type": "module",
