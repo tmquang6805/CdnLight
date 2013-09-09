@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of the CdnLight package.
+ * @copyright Copyright (c) 2012 Blanchon Vincent - France (http://developpeur-zend-framework.fr - blanchon.vincent@gmail.com)
+ */
+
 namespace CdnLight\Generator;
 
 use Zend\Uri\Http as HttpUri;
@@ -131,7 +136,7 @@ class LinkBuilder
 
             return $rebuiltUrl;
         }
-        
+
         return $uri;
     }
 

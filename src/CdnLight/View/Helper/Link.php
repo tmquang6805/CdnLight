@@ -14,21 +14,11 @@ class Link extends AbstractHelper
 
     private $linkBuilders;
 
-    /**
-     * Construct the cdn helper
-     *
-     * @param array $cdnConfig
-     */
     public function __construct($linkBuilders)
     {
         $this->linkBuilders = $linkBuilders;
     }
 
-    /**
-     * Usage of image view helper
-     * @param string $src
-     * @return Image
-     */
     public function __invoke($src = null)
     {
         if (null === $src) {

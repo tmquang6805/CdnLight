@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This file is part of the CdnLight package.
+ * @copyright Copyright (c) 2012 Blanchon Vincent - France (http://developpeur-zend-framework.fr - blanchon.vincent@gmail.com)
+ */
+
 namespace CdnLight\View\Helper\Service;
 
 use Zend\ServiceManager\FactoryInterface;
@@ -13,7 +18,6 @@ abstract class AbstractLinkBuilderFactory implements FactoryInterface
 
     protected function getLinkBuilders()
     {
-        $serviceLocator = $this->serviceLocator->getServiceLocator();
         $config = $this->serviceLocator->get('Config');
 
         $builders = array();
@@ -27,8 +31,7 @@ abstract class AbstractLinkBuilderFactory implements FactoryInterface
 
     protected function isDisabled($type)
     {
-        $serviceLocator = $this->serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
+        $config = $this->serviceLocator->get('Config');
         $disabled = false;
 
         if (isset($config['cdn_light'][$type]) && !$config['cdn_light'][$type]) {
