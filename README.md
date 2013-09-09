@@ -16,8 +16,8 @@ return array(
         'HeadScript' => true,
         'LinkCdn' => false, // Bypass the CDN for this helper
         
-        'global' => array(// Set some values across all servers
-            'assetMTimePath' => '/tmp/path/to/file' // Append this mtime in your query string
+        'global' => array( // Set some values across all servers
+            'assetMTimePath' => '/tmp/path/to/file' // Append the mtime of this file in your query string
         ),
         'servers' => array(
             'static_1' => array(
@@ -38,7 +38,7 @@ return array(
 );
 ```
 
-Yours CSS and JS files will switch CDN by round robin.
+Yours CSS and JS files will be distributed across the listed CDN by round robin.
 
 Usage
 ------------
