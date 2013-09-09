@@ -13,11 +13,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class HeadScriptCdnFactory implements FactoryInterface
 {
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
-        $helper = new HeadScript($config['cdn_light']['servers']);
+        $this->serviceLocator = $serviceLocator;
+        $helper = new HeadLink($this->getLinkBuilders(), $this->isDisabled('HeadScript'));
         return $helper;
     }
+
 }

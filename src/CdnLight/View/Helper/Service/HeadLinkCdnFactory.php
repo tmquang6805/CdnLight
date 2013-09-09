@@ -8,16 +8,16 @@
 namespace CdnLight\View\Helper\Service;
 
 use CdnLight\View\Helper\HeadLink;
-use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class HeadLinkCdnFactory implements FactoryInterface
+class HeadLinkCdnFactory extends AbstractLinkBuilderFactory
 {
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
-        $helper = new HeadLink($config['cdn_light']['servers']);
+        $this->serviceLocator = $serviceLocator;
+        $helper = new HeadLink($this->getLinkBuilders(), $this->isDisabled('HeadLink'));
         return $helper;
     }
+
 }

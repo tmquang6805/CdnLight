@@ -13,11 +13,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class LinkCdnFactory implements FactoryInterface
 {
+
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
-        $helper = new Link($config['cdn_light']['servers'], $config['cdn_light']['link_helper']['enabled']);
+        $this->serviceLocator = $serviceLocator;
+        $helper = new Link($this->getLinkBuilders(), $this->isDisabled('LinkCdn'));
         return $helper;
     }
+
 }

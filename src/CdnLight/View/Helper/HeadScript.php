@@ -14,50 +14,19 @@ use Zend\View\Helper\HeadScript as BaseHeadScript;
 
 class HeadScript extends BaseHeadScript
 {
-    /**
-     * Cdn config, array of server config
-     * @var array
-     */
-    protected $cdnConfig;
 
-    /**
-     * Current server id used
-     * @var integer
-     */
-    protected static $serverId;
+    private $linkBuilders;
+    private $disabled;
 
     /**
      * Construct the cdn helper
      *
      * @param array $cdnConfig
      */
-    public function __construct(array $cdnConfig)
+    public function __construct($linkBuilders, $disabled = false)
     {
-        $this->setCdnConfig($cdnConfig);
-        parent::__construct();
-    }
-
-    /**
-     * Set the Cdn servers config
-     *
-     * @param array $cdnConfig
-     * @return HeadScript
-     */
-    public function setCdnConfig(array $cdnConfig)
-    {
-        if(empty($cdnConfig)) {
-            throw new InvalidArgumentException('Cdn config must be not empty');
-        }
-        $configs = array();
-        foreach($cdnConfig as $cdn) {
-            if(!is_array($cdn)) {
-                throw new InvalidArgumentException('Cdn config must be an array of cdn arrays');
-            }
-            $configs[] = $cdn;
-        }
-        $this->cdnConfig = $configs;
-        static::$serverId = 0;
-        return $this;
+        $this->linkBuilders = $linkBuilders;
+        $this->disabled = $disabled;
     }
 
     /**
@@ -109,26 +78,13 @@ class HeadScript extends BaseHeadScript
         parent::offsetSet($index, $value);
     }
 
-    /**
-     * Construct the cdn url
-     * @param \StdClass $value
-     * @return HeadScript
-     */
-    protected function cdn(\StdClass $value)
+    private function cdn($value)
     {
-        if(!isset($this->cdnConfig[static::$serverId])) {
-            static::$serverId = 0;
+        if (!$this->disabled) {
+            $value->attributes['src'] = $this->linkBuilders->getUri($value->attributes['src']);
         }
-        $config = $this->cdnConfig[static::$serverId];
-        $uri = new HttpUri($value->attributes['src']);
-        if($uri->getHost()) {
-            return false;
-        }
-        $uri->setScheme($config['scheme']);
-        $uri->setPort($config['port']);
-        $uri->setHost($config['host']);
-        $value->attributes['src'] = $uri->toString();
-        static::$serverId++;
+
         return $this;
     }
+
 }
