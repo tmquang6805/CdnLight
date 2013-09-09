@@ -1,7 +1,7 @@
 ZF2 CdnLight module
 ========
 
-Version 1.0.0 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
+Version 1.1.0 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
 
 Introduction
 ------------
@@ -38,7 +38,7 @@ return array(
 );
 ```
 
-Yours CSS and JS files will use your CDN by turnover.
+Yours CSS and JS files will switch CDN by round robin.
 
 Usage
 ------------
