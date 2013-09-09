@@ -29,4 +29,17 @@ class LinkSpec extends ObjectBehavior
     {
         $this->__invoke()->shouldReturn($this);
     }
+    
+        function it_can_be_disabled($linkBuilders)
+    {
+        $this->beConstructedWith($linkBuilders, true);
+        $linkBuilders->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
+
+        $object = new \stdClass();
+        $object->attributes = array('src' => "/example/file.js");
+
+        $this->__invoke("/example/file.js");
+
+        $linkBuilders->getUri("/example/file.js")->shouldNotBeCalled();
+    }
 }

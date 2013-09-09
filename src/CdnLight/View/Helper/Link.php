@@ -13,10 +13,12 @@ class Link extends AbstractHelper
 {
 
     private $linkBuilders;
+    private $disabled;
 
-    public function __construct($linkBuilders)
+    public function __construct($linkBuilders, $disabled = false)
     {
         $this->linkBuilders = $linkBuilders;
+        $this->disabled = $disabled;
     }
 
     public function __invoke($src = null)
@@ -25,6 +27,10 @@ class Link extends AbstractHelper
             return $this;
         }
 
+        if($this->disabled) {
+            return $src;
+        }
+        
         return $this->linkBuilders->getUri($src);
     }
 
