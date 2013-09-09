@@ -3,7 +3,7 @@
 return array(
     'cdn_light' => array(
         'HeadLink' => true,
-        'HeadScriot' => true,
+        'HeadScript' => true,
         'LinkCdn' => false, // Bypass the CDN for this helper
         
         'global' => array(// Set some values across all servers
