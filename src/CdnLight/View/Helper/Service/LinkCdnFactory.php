@@ -15,9 +15,10 @@ class LinkCdnFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
-        $helper = new Link($config['cdn_light']['servers'], $config['cdn_light']['link_helper']['enabled']);
-        return $helper;
+        $config = $serviceLocator->getServiceLocator()->get('Config');
+        $builder = $serviceLocator->getServiceLocator()->get('cdnLinkBuilderContainer');
+        $disabled = isset($config['cdn_light']['link_cdn']) && !$config['cdn_light']['link_cdn'];
+
+        return new Link($builder, $disabled);
     }
 }

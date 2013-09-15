@@ -12,4 +12,9 @@ return array(
             'headScript' => 'headScriptCdn',
         ),
     ),
+    'service_manager' => array(
+        'factories' => array(
+            'cdnLinkBuilderContainer' => 'CdnLight\Generator\Service\LinkBuilderContainerFactory',
+        )
+    )
 );

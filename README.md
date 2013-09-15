@@ -1,7 +1,7 @@
 ZF2 CdnLight module
 ========
 
-Version 1.0.0 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
+Version 1.1.0 Created by [Vincent Blanchon](http://developpeur-zend-framework.fr/)
 
 Introduction
 ------------
@@ -12,30 +12,33 @@ Just configure your module in cdnlight.local.php which will be moved in "/config
 ```php
 return array(
     'cdn_light' => array(
-        'enabled' => true,
+        'HeadLink' => true,
+        'HeadScript' => true,
+        'LinkCdn' => false, // Bypass the CDN for this helper
+        
+        'global' => array( // Set some values across all servers
+            'assetMTimePath' => '/tmp/path/to/file' // Append the mtime of this file in your query string
+        ),
         'servers' => array(
             'static_1' => array(
                 'scheme' => 'http',
-                'host' => 'server1.com',
-                'port' => 80,
+                'host' => 'server1.example.com',
+                'port' => 80
             ),
             'static_2' => array(
-                'scheme' => 'http',
-                'host' => 'server2.com',
-                'port' => 80,
+                'scheme' => '', // Generate scheme less URIs
+                'host' => 'server2.example.com',
+                'port' => 81,
             ),
             'static_3' => array(
-                'scheme' => 'http',
-                'host' => 'server3.com',
-                'port' => 80,
+                'passthru' => true, // Do nothing to the urls
             ),
         ),
     ),
 );
-
 ```
 
-Yours CSS and JS files will use your CDN by turnover.
+Yours CSS and JS files will be distributed across the listed CDN by round robin.
 
 Usage
 ------------
@@ -61,3 +64,8 @@ You can use a link view helper for a standalone usage :
 ```php
 <img src="<?php $this->linkCdn('/img/logo.png'); ?>" alt="" />
 ```
+
+Contributors
+------------
+* [blanchonvincent](https://github.com/blanchonvincent/)
+* [PurpleBooth](https://github.com/PurpleBooth)

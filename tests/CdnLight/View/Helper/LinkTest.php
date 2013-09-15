@@ -3,7 +3,6 @@
 namespace CdnLightTest\View\Helper;
 
 use PHPUnit_Framework_TestCase as TestCase;
-use Zend\View\Helper\Placeholder;
 use Zend\ServiceManager;
 use Zend\View\HelperPluginManager;
 
@@ -15,8 +14,11 @@ class LinkTest extends TestCase
     {
         $config = include __DIR__ . '/../../../../config/module.config.php';
         $config = array_merge($config, include __DIR__ . '/../../../../config/cdnlight.local.php');
+        $config['cdn_light']['link_cdn'] = true;
+        $config['cdn_light']['head_link'] = true;
+        $config['cdn_light']['head_script'] = true;
         $this->sm = new HelperPluginManager(new ServiceManager\Config($config['view_helpers']));
-        $smApp =  new ServiceManager\ServiceManager();
+        $smApp =  new ServiceManager\ServiceManager(new ServiceManager\Config($config['service_manager']));
         $smApp->setService('Config', $config);
         $this->sm->setServiceLocator($smApp);
     }
@@ -31,10 +33,10 @@ class LinkTest extends TestCase
     {
         $helper = $this->sm->get('linkCdn');
 
-        $image = 'http://server1.com:80/img/logo.png';
+        $image = 'http://server1.example.com:80/img/logo.png';
         $this->assertEquals($helper->cdn('/img/logo.png'), $image);
 
-        $image = 'http://server1.com:80/img/logo.png';
+        $image = '//server2.example.com:81/img/logo.png';
         $this->assertEquals($helper('/img/logo.png'), $image);
     }
 
@@ -47,13 +49,5 @@ class LinkTest extends TestCase
 
         $image = 'http://www.myserver.com/img/logo.png';
         $this->assertEquals($helper('http://www.myserver.com/img/logo.png'), $image);
-    }
-
-    public function testCanNotRetrieveCdnLinkDisabled()
-    {
-        $helper = $this->sm->get('linkCdn');
-        $helper->setEnabled(false);
-        $image = '/img/logo.png';
-        $this->assertEquals($helper->cdn('/img/logo.png'), $image);
     }
 }

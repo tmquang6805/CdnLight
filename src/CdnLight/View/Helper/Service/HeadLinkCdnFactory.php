@@ -15,9 +15,10 @@ class HeadLinkCdnFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $serviceLocator = $serviceLocator->getServiceLocator();
-        $config = $serviceLocator->get('Config');
-        $helper = new HeadLink($config['cdn_light']['servers']);
-        return $helper;
+        $config = $serviceLocator->getServiceLocator()->get('Config');
+        $builder = $serviceLocator->getServiceLocator()->get('cdnLinkBuilderContainer');
+        $disabled = isset($config['cdn_light']['head_link']) && !$config['cdn_light']['head_link'];
+
+        return new HeadLink($builder, $disabled);
     }
 }
