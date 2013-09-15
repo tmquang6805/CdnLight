@@ -11,13 +11,21 @@ use Zend\View\Helper\HeadLink as BaseHeadLink;
 
 class HeadLink extends BaseHeadLink
 {
+    /**
+     * Link builder container
+     * @var CdnLight\Generator\LinkBuilderContainer
+     */
+    protected $linkBuilderContainer;
+    
+    /**
+     * Cdn status
+     * @var boolean
+     */
+    protected $disabled;
 
-    private $linkBuilders;
-    private $disabled;
-
-    public function __construct($linkBuilders, $disabled = false)
+    public function __construct($linkBuilderContainer, $disabled = false)
     {
-        $this->linkBuilders = $linkBuilders;
+        $this->linkBuilderContainer = $linkBuilderContainer;
         $this->disabled = $disabled;
     }
 
@@ -48,8 +56,7 @@ class HeadLink extends BaseHeadLink
     protected function cdn(\StdClass $value)
     {
         if (!$this->disabled) {
-            $value->href = $this->linkBuilders->getUri($value->href);
+            $value->href = $this->linkBuilderContainer->getUri($value->href);
         }
     }
-
 }

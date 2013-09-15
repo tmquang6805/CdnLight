@@ -64,3 +64,8 @@ You can use a link view helper for a standalone usage :
 ```php
 <img src="<?php $this->linkCdn('/img/logo.png'); ?>" alt="" />
 ```
+
+Contributors
+------------
+* [blanchonvincent](https://github.com/blanchonvincent/)
+* [PurpleBooth](https://github.com/PurpleBooth)

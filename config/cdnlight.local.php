@@ -2,9 +2,9 @@
 
 return array(
     'cdn_light' => array(
-        'HeadLink' => true,
-        'HeadScript' => true,
-        'LinkCdn' => false, // Bypass the CDN for this helper
+        'head_link' => true,
+        'head_script' => true,
+        'link_cdn' => false, // Bypass the CDN for this helper
         
         'global' => array(// Set some values across all servers
             'assetMTimePath' => '/tmp/path/to/file' // Append this mtime in your query string

@@ -12,132 +12,113 @@ use Zend\Uri\Http as HttpUri;
 class LinkBuilder
 {
 
-    private $configuration;
+    /**
+     * Link builder configuration
+     * @var array
+     */
+    protected $configuration;
 
-    public function __construct($configuration)
+    public function __construct(array $configuration)
     {
-        $this->configuration = $configuration;
+        $this->configuration = array_replace_recursive(
+            array('scheme' => '', 'port' => ''), 
+            $configuration
+        );
     }
 
+    /**
+     * 
+     * @param string $uri
+     * @return string
+     */
     public function getUri($uri)
     {
-        if ($this->isPassthru() || $this->hasHost($uri)) {
+        if ($this->isPassthru()) {
             return $uri;
+        }
+        
+        $httpUri = new HttpUri($uri);
+        
+        if ($httpUri->getHost()) {
+            return $httpUri->toString();
         }
 
         if ($this->isConfiguredForHost()) {
-            $uri = $this->getUriWithHost($uri);
-
-            if ($this->isSchemeless()) {
-                $uri = substr($uri, strlen("http:"));
-            }
+            $this->build($httpUri);
         }
 
-        $uri = $this->getUriWithMTime($uri);
-
+        $this->getUriWithMTime($httpUri);
+        
+        $uri = $httpUri->toString();
+        
+        if ($this->isConfiguredForHost() && $this->isSchemeless()) {
+            $uri = substr($uri, strlen("http:"));
+        }
+        
         return $uri;
     }
 
-    private function isSchemeless()
+    /**
+     * Check scheme configuration
+     * @return boolean
+     */
+    protected function isSchemeless()
     {
-        if (empty($this->configuration['scheme'])) {
-            return true;
-        }
-
-        return false;
+        return empty($this->configuration['scheme']);
     }
 
-    private function isPassthru()
+    /**
+     * Check CDN status
+     * @return boolean
+     */
+    protected function isPassthru()
     {
         return (isset($this->configuration['passthru']) && $this->configuration['passthru']);
     }
 
-    private function hasHost($uri)
+    /**
+     * Check CDN configuration
+     * @return boolean
+     */
+    protected function isConfiguredForHost()
     {
-        $uri = new HttpUri($uri);
-
-        if ($uri->getHost()) {
-            return true;
-        }
-
-        return false;
+        return isset($this->configuration['host']) && !empty($this->configuration['host']);
     }
 
-    private function isConfiguredForHost()
-    {
-        foreach (array('scheme', 'port', 'host') as $key) {
-            if (!isset($this->configuration[$key])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function getUriWithHost($uri)
+    /**
+     * Build with configuration
+     * @param HttpUri $uri
+     * @return LinkBuilder
+     */
+    protected function build(HttpUri $uri)
     {
         $config = $this->configuration;
-
+        
         if ($this->isSchemeless()) {
             $config['scheme'] = "http";
         }
+        
+        $uri->setScheme($config['scheme']);
+        $uri->setPort($config['port']);
+        $uri->setHost($config['host']);
 
-        $parsedUri = new HttpUri($uri);
-        $parsedUri->setScheme($config['scheme']);
-        $parsedUri->setPort($config['port']);
-        $parsedUri->setHost($config['host']);
-
-        return $parsedUri->toString();
+        return $this;
     }
 
-    private function getUriWithMTime($uri)
+    /**
+     * Add mktime file as argument
+     * @param HttpUri $uri
+     * @return LinkBuilder
+     */
+    protected function getUriWithMTime(HttpUri $uri)
     {
         if (isset($this->configuration['assetMTimePath']) && file_exists($this->configuration['assetMTimePath'])) {
-            $mtime = filemtime($this->configuration['assetMTimePath']);
-
-            $parsedUrl = parse_url($uri);
-            $rebuiltUrl = "";
-
-            if (isset($parsedUrl['scheme'])) {
-                $rebuiltUrl .= $parsedUrl['scheme'] . "://";
-            } elseif (isset($parsedUrl['host'])) {
-                $rebuiltUrl .= "//";
-            }
-
-            if (isset($parsedUrl['host']) && (isset($parsedUrl['user']) && isset($parsedUrl['pass']))) {
-
-
-                $rebuiltUrl .= $parsedUrl['user'] . ":" . $parsedUrl['pass'] . "@";
-            }
-
-            if (isset($parsedUrl['host'])) {
-                $rebuiltUrl .= $parsedUrl['host'];
-            }
-
-            if (isset($parsedUrl['path'])) {
-                $rebuiltUrl .= $parsedUrl['path'];
-            }
-
-
-
-            if (isset($parsedUrl['query'])) {
-                $query = explode("&", $parsedUrl['query']);
-            } else {
-                $query = array();
-            }
-
-            $query[] = "m=" . $mtime;
-
-            $rebuiltUrl .= "?" . implode("&", $query);
-
-            if (isset($parsedUrl['fragment'])) {
-                $rebuiltUrl .= "#" . $parsedUrl['fragment'];
-            }
-
-            return $rebuiltUrl;
+            $query = $uri->getQueryAsArray();
+            $query['m'] = filemtime($this->configuration['assetMTimePath']);
+            $uri->setQuery($query);
         }
-
-        return $uri;
+        
+        return $this;
     }
 
 }

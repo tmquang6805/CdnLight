@@ -7,7 +7,7 @@
 
 namespace CdnLight\Generator;
 
-class LinkBuilders
+class LinkBuilderContainer
 {
 
     private $linkBuilders;

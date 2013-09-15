@@ -11,13 +11,21 @@ use Zend\View\Helper\HeadScript as BaseHeadScript;
 
 class HeadScript extends BaseHeadScript
 {
+    /**
+     * Link builder container
+     * @var CdnLight\Generator\LinkBuilderContainer
+     */
+    protected $linkBuilderContainer;
+    
+    /**
+     * Cdn status
+     * @var boolean
+     */
+    protected $disabled;
 
-    private $linkBuilders;
-    private $disabled;
-
-    public function __construct($linkBuilders, $disabled = false)
+    public function __construct($linkBuilderContainer, $disabled = false)
     {
-        $this->linkBuilders = $linkBuilders;
+        $this->linkBuilderContainer = $linkBuilderContainer;
         $this->disabled = $disabled;
     }
 
@@ -45,11 +53,10 @@ class HeadScript extends BaseHeadScript
         parent::offsetSet($index, $value);
     }
 
-    private function cdn($value)
+    protected function cdn($value)
     {
         if (!$this->disabled) {
-            $value->attributes['src'] = $this->linkBuilders->getUri($value->attributes['src']);
+            $value->attributes['src'] = $this->linkBuilderContainer->getUri($value->attributes['src']);
         }
     }
-
 }

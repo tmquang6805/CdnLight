@@ -11,17 +11,38 @@ use Zend\View\Helper\AbstractHelper;
 
 class Link extends AbstractHelper
 {
+    /**
+     * Link builder container
+     * @var CdnLight\Generator\LinkBuilderContainer
+     */
+    protected $linkBuilderContainer;
+    
+    /**
+     * Cdn status
+     * @var boolean
+     */
+    protected $disabled;
 
-    private $linkBuilders;
-    private $disabled;
-
-    public function __construct($linkBuilders, $disabled = false)
+    public function __construct($linkBuilderContainer, $disabled = false)
     {
-        $this->linkBuilders = $linkBuilders;
+        $this->linkBuilderContainer = $linkBuilderContainer;
         $this->disabled = $disabled;
     }
 
+    /**
+     * Get cdn link
+     * @param string $src
+     */
     public function __invoke($src = null)
+    {
+        return $this->cdn($src);
+    }
+    
+    /**
+     * Get cdn link
+     * @param string $src
+     */
+    public function cdn($src)
     {
         if (null === $src) {
             return $this;
@@ -31,7 +52,6 @@ class Link extends AbstractHelper
             return $src;
         }
         
-        return $this->linkBuilders->getUri($src);
+        return $this->linkBuilderContainer->getUri($src);
     }
-
 }
