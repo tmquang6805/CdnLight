@@ -3,9 +3,8 @@
 namespace spec\CdnLight\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
-class LinkBuildersSpec extends ObjectBehavior
+class LinkBuilderContainerSpec extends ObjectBehavior
 {
     function let($linkBuilder1, $linkBuilder2, $linkBuilder3)
     {
@@ -18,7 +17,7 @@ class LinkBuildersSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('CdnLight\Generator\LinkBuilders');
+        $this->shouldHaveType('CdnLight\Generator\LinkBuilderContainer');
     }
     
     function it_calls_a_different_generator_each_time_it_is_invoked($linkBuilder1, $linkBuilder2, $linkBuilder3) 

@@ -3,7 +3,6 @@
 namespace spec\CdnLight\Generator;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class LinkBuilderSpec extends ObjectBehavior
 {

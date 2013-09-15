@@ -3,15 +3,14 @@
 namespace spec\CdnLight\View\Helper;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class HeadScriptSpec extends ObjectBehavior
 {
 
-    function let($linkBuilders)
+    function let($linkBuilderContainer)
     {
-        $linkBuilders->beADoubleOf('CdnLight\Generator\LinkBuilders');
-        $this->beConstructedWith($linkBuilders);
+        $linkBuilderContainer->beADoubleOf('CdnLight\Generator\LinkBuilderContainer');
+        $this->beConstructedWith($linkBuilderContainer);
     }
 
     function it_is_initializable()
@@ -19,41 +18,41 @@ class HeadScriptSpec extends ObjectBehavior
         $this->shouldHaveType('CdnLight\View\Helper\HeadScript');
     }
 
-    function it_can_append_cdn_ed_scripts($linkBuilders)
+    function it_can_append_cdn_ed_scripts($linkBuilderContainer)
     {
-        $linkBuilders->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
+        $linkBuilderContainer->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
 
         $object = new \stdClass();
         $object->attributes = array('src' => "/example/file.js");
 
         $this->appendFile("/example/file.js");
 
-        $linkBuilders->getUri("/example/file.js")->shouldBeCalled();
+        $linkBuilderContainer->getUri("/example/file.js")->shouldBeCalled();
     }
     
-    function it_can_prepend_cdn_ed_scripts($linkBuilders)
+    function it_can_prepend_cdn_ed_scripts($linkBuilderContainer)
     {
-        $linkBuilders->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
+        $linkBuilderContainer->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
 
         $object = new \stdClass();
         $object->attributes = array('src' => "/example/file.js");
 
         $this->prependFile("/example/file.js");
 
-        $linkBuilders->getUri("/example/file.js")->shouldBeCalled();
+        $linkBuilderContainer->getUri("/example/file.js")->shouldBeCalled();
     }
     
-    function it_can_be_disabled($linkBuilders)
+    function it_can_be_disabled($linkBuilderContainer)
     {
-        $this->beConstructedWith($linkBuilders, true);
-        $linkBuilders->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
+        $this->beConstructedWith($linkBuilderContainer, true);
+        $linkBuilderContainer->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
 
         $object = new \stdClass();
         $object->attributes = array('src' => "/example/file.js");
 
         $this->prependFile("/example/file.js");
 
-        $linkBuilders->getUri("/example/file.js")->shouldNotBeCalled();
+        $linkBuilderContainer->getUri("/example/file.js")->shouldNotBeCalled();
     }
 
 }

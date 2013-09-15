@@ -3,14 +3,13 @@
 namespace spec\CdnLight\View\Helper;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class LinkSpec extends ObjectBehavior
 {
-    function let($linkBuilders) 
+    function let($linkBuilderContainer) 
     {
-        $linkBuilders->beADoubleOf('CdnLight\Generator\LinkBuilders');
-        $this->beConstructedWith($linkBuilders);
+        $linkBuilderContainer->beADoubleOf('CdnLight\Generator\LinkBuilderContainer');
+        $this->beConstructedWith($linkBuilderContainer);
     }
 
     function it_is_initializable()
@@ -18,9 +17,9 @@ class LinkSpec extends ObjectBehavior
         $this->shouldHaveType('CdnLight\View\Helper\Link');
     }
     
-    function it_calls_the_link_builder_on_invoke_with_url($linkBuilders)
+    function it_calls_the_link_builder_on_invoke_with_url($linkBuilderContainer)
     {
-        $linkBuilders->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
+        $linkBuilderContainer->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
         
         $this->__invoke("/example/file.js")->shouldReturn("http://example.com:80/example.js");
     }
@@ -30,16 +29,16 @@ class LinkSpec extends ObjectBehavior
         $this->__invoke()->shouldReturn($this);
     }
     
-        function it_can_be_disabled($linkBuilders)
+        function it_can_be_disabled($linkBuilderContainer)
     {
-        $this->beConstructedWith($linkBuilders, true);
-        $linkBuilders->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
+        $this->beConstructedWith($linkBuilderContainer, true);
+        $linkBuilderContainer->getUri("/example/file.js")->willReturn("http://example.com:80/example.js");
 
         $object = new \stdClass();
         $object->attributes = array('src' => "/example/file.js");
 
         $this->__invoke("/example/file.js");
 
-        $linkBuilders->getUri("/example/file.js")->shouldNotBeCalled();
+        $linkBuilderContainer->getUri("/example/file.js")->shouldNotBeCalled();
     }
 }

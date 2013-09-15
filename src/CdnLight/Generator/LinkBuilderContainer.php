@@ -9,19 +9,27 @@ namespace CdnLight\Generator;
 
 class LinkBuilderContainer
 {
+    /**
+     * LinkBuilder container
+     * @var array
+     */
+    protected $container;
 
-    private $linkBuilders;
-
-    public function __construct($linkBuilders)
+    public function __construct(array $container)
     {
-        $this->linkBuilders = $linkBuilders;
+        $this->container = $container;
     }
 
+    /**
+     * Get a formatted uri
+     * @param string $input
+     * @return string
+     */
     public function getUri($input)
     {
-        $current = array_shift($this->linkBuilders);
+        $current = array_shift($this->container);
         $uri = $current->getUri($input);
-        array_push($this->linkBuilders, $current);
+        array_push($this->container, $current);
 
         return $uri;
     }
