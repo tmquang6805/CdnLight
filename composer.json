@@ -1,15 +1,16 @@
 {
-    "name": "blanchonvincent/cdn-light",
-    "description": "ZF2 module v1.1.0 - Manage your own CDN with ZF2 application",
-    "version": "1.1.0",
+    "name": "tmquang/cdn-light",
+    "description": "ZF2 module v1.2.0 - Manage your own CDN with ZF2 application",
+    "version": "1.2.0",
     "type": "module",
     "license": "MIT",
     "tags": [
         "zend framework",
         "cdn",
-        "module"
+        "module",
+        "zf2"
     ],
-    "homepage": "https://github.com/blanchonvincent/CdnLight",
+    "homepage": "https://github.com/tmquang6805/CdnLight",
     "authors": [
         {
             "name": "Vincent Blanchon",
@@ -19,10 +20,15 @@
         {
             "name": "Billie Thompson",
             "email": "billie@billiecodes.com"
+        },
+        {
+            "name" : "Tran Minh Quang",
+            "email" : "tmquang6805@yahoo.com",
+            "homepage" : "http://tmquang6805.blogspot.coom"
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4",
         "zendframework/zendframework": "2.*"
     },
     "require-dev": {
@@ -31,6 +37,9 @@
     "autoload": {
     	"psr-0": {
             "CdnLight": "src/"
-    	}
+    	},
+        "classmap": [
+            "./Module.php"
+        ]
     }
 }

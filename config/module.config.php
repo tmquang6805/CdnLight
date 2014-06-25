@@ -1,20 +1,16 @@
 <?php
 
 return array(
-    'view_helpers' => array(
-        'factories' => array(
-            'headLinkCdn' => 'CdnLight\View\Helper\Service\HeadLinkCdnFactory',
+    'view_helpers'    => [
+        'factories' => [
+            'headLinkCdn'   => 'CdnLight\View\Helper\Service\HeadLinkCdnFactory',
             'headScriptCdn' => 'CdnLight\View\Helper\Service\HeadScriptCdnFactory',
-            'linkCdn' => 'CdnLight\View\Helper\Service\LinkCdnFactory',
-        ),
-        'aliases' => array(
-            'headLink' => 'headLinkCdn',
-            'headScript' => 'headScriptCdn',
-        ),
-    ),
-    'service_manager' => array(
-        'factories' => array(
+            'linkCdn'       => 'CdnLight\View\Helper\Service\LinkCdnFactory',
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
             'cdnLinkBuilderContainer' => 'CdnLight\Generator\Service\LinkBuilderContainerFactory',
-        )
-    )
+        ],
+    ],
 );

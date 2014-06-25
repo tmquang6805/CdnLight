@@ -28,8 +28,6 @@ class HeadLinkTest extends TestCase
     {
         $helperCdn = $this->sm->get('headLinkCdn');
         $this->assertEquals(get_class($helperCdn), 'CdnLight\View\Helper\HeadLink');
-        $helper = $this->sm->get('headLink');
-        $this->assertSame($helperCdn, $helper);
     }
 
     public function testCanRetrieveCdnLink()
